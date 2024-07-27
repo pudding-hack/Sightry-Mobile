@@ -43,7 +43,7 @@ fun HomeScreen(navController: NavHostController) {
         }, color = Red)
         Spacer(modifier = Modifier.height(16.dp))
         HomeButton(text = "List Stock Barang", onClick = {
-
+            navController.navigate(NavigationItem.List.route)
         }, color = Blue)
         Spacer(modifier = Modifier.height(16.dp))
         HomeButton(text = "Tambah Stock", onClick = {

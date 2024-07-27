@@ -121,7 +121,7 @@ fun CameraScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("Camera permission is required to use this feature.")
+            Text("Izinkan Camera pada handphone anda untuk menggunakan fitur ini")
         }
     }
 }
