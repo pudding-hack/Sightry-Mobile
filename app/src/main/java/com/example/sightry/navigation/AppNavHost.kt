@@ -8,15 +8,28 @@ import androidx.navigation.compose.composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Home.route,
+    startDestination: String = NavigationItem.Splash.route,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(NavigationItem.Splash.route) {
+            SplashScreen(navController)
+        }
+        composable(NavigationItem.Login.route) {
+            LoginScreen(navController)
+        }
         composable(NavigationItem.Home.route) {
             HomeScreen(navController)
         }
+        composable(NavigationItem.Camera.route) {
+            CameraScreen(navController)
+        }
+        composable(NavigationItem.Result.route) {
+            ResultScreen(navController)
+        }
     }
 }
+
