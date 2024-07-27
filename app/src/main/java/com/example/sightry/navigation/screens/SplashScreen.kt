@@ -25,12 +25,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
+    val tokenManager = remember { TokenManager(context) }
     val coroutineScope = rememberCoroutineScope()
     var token by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            token = getAccessToken(context)
+            token = tokenManager.getAccessToken()
 
             delay(1000)
             if (!token.isNullOrEmpty()) {
@@ -57,11 +58,4 @@ fun SplashScreen(navController: NavController) {
             LogoWTextComp()
         }
     }
-}
-
-suspend fun getAccessToken(context: Context): String? {
-    val dataStore = context.dataStore
-    return dataStore.data.map { preferences ->
-        preferences[PreferencesKeys.ACCESS_TOKEN]
-    }.first()
 }
