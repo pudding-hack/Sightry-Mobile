@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Min.route,
+    startDestination: String = NavigationItem.Camera.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -44,6 +44,9 @@ fun AppNavHost(
         }
         composable(NavigationItem.Edit.route) {
             EditScreen(navController)
+        }
+        composable(NavigationItem.Count.route) {
+            CountBarangScreen(navController)
         }
     }
 }

@@ -95,7 +95,7 @@ fun CameraScreen(navController: NavHostController) {
                                 val imageUri = outputFileResults.savedUri
                                 imageUri?.let {
                                     navController.currentBackStackEntry?.savedStateHandle?.set("imageUri", it.toString())
-                                    navController.navigate(NavigationItem.Result.route)
+                                    navController.navigate(NavigationItem.Count.route)
                                 }
                             }
 

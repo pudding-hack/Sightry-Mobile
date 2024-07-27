@@ -9,6 +9,7 @@ enum class Screen {
     ADD,
     MIN,
     EDIT,
+    COUNT,
 }
 
 sealed class NavigationItem(val route: String) {
@@ -22,4 +23,5 @@ sealed class NavigationItem(val route: String) {
     object Add : NavigationItem(Screen.ADD.name)
     object Min : NavigationItem(Screen.MIN.name)
     object Edit : NavigationItem(Screen.EDIT.name)
+    object Count : NavigationItem(Screen.COUNT.name)
 }

@@ -1,6 +1,8 @@
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -19,8 +21,18 @@ fun ListStockBarangScreen(navController: NavHostController) {
             navController.popBackStack()
         })
         Spacer(modifier = Modifier.height(30.dp))
-        ListProducts(product = "Pasta Gigi", stock = "10 Buah", onClick = {
-            navController.navigate(NavigationItem.Detail.route)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            ListProducts(product = "Pasta Gigi", stock = "10 Buah", onClick = {
+                navController.navigate(NavigationItem.Detail.route)
+            })
+        }
+        Spacer(modifier = Modifier.height(26.dp))
+        FilledButton(text = "Tambah Stock", onClick = {
+
         })
     }
 }
