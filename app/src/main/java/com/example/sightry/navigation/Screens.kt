@@ -5,7 +5,10 @@ enum class Screen {
     CAMERA,
     RESULT,
     LIST,
-    Detail
+    DETAIL,
+    ADD,
+    MIN,
+    EDIT,
 }
 
 sealed class NavigationItem(val route: String) {
@@ -15,5 +18,8 @@ sealed class NavigationItem(val route: String) {
     object Camera : NavigationItem(Screen.CAMERA.name)
     object Result : NavigationItem(Screen.RESULT.name)
     object List : NavigationItem(Screen.LIST.name)
-    object Detail : NavigationItem(Screen.Detail.name)
+    object Detail : NavigationItem(Screen.DETAIL.name)
+    object Add : NavigationItem(Screen.ADD.name)
+    object Min : NavigationItem(Screen.MIN.name)
+    object Edit : NavigationItem(Screen.EDIT.name)
 }

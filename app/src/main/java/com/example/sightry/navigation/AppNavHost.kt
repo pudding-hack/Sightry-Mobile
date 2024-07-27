@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Detail.route,
+    startDestination: String = NavigationItem.Min.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -35,6 +35,15 @@ fun AppNavHost(
         }
         composable(NavigationItem.Detail.route) {
             DetailBarangScreen(navController)
+        }
+        composable(NavigationItem.Add.route) {
+            AddScreen(navController)
+        }
+        composable(NavigationItem.Min.route) {
+            MinScreen(navController)
+        }
+        composable(NavigationItem.Edit.route) {
+            EditScreen(navController)
         }
     }
 }
