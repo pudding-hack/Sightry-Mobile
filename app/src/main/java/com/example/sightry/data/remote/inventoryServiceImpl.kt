@@ -1,12 +1,15 @@
 package com.example.sightry.data.remote
 
 import RecognitionResponse
+import TokenManager
+import android.content.Context
 import com.example.sightry.data.remote.dto.request.RecognitionRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
@@ -17,10 +20,13 @@ import io.ktor.http.contentType
 class inventoryServiceImpl(
     private val client: HttpClient
 ): InventoryService {
-    override suspend fun recognition(recognitionRequest: RecognitionRequest): RecognitionResponse? {
+    override suspend fun recognition(recognitionRequest: RecognitionRequest, context: Context): RecognitionResponse? {
+        val tokenManager = TokenManager(context)
+        val token = tokenManager.getAccessToken()
         try {
             return client.post{
                 url(HttpRoutes.RECOGNITION)
+                header("Authorization", "Bearer $token")
                 contentType(ContentType.Application.Json)
                 setBody(recognitionRequest)
             }.body()
