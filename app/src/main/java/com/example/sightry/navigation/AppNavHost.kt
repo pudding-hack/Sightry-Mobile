@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Camera.route,
+    startDestination: String = NavigationItem.Splash.route,
 ) {
     NavHost(
         modifier = modifier,

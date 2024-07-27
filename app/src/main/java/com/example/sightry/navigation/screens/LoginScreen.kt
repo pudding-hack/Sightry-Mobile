@@ -1,43 +1,33 @@
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.sightry.R
 import com.example.sightry.ui.theme.Black
-import com.example.sightry.ui.theme.DarkBlue
-import com.example.sightry.ui.theme.White
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
+    val state by viewModel.loginState.collectAsState()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    var passwordVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,19 +48,16 @@ fun LoginScreen(navController: NavHostController) {
             )
         )
         Spacer(modifier = Modifier.height(11.dp))
-        Row {
-            OutlinedTextField(
-                value = "",
-                onValueChange = { /*TODO*/ },
-                shape = RoundedCornerShape(100.dp),
-                label = {
-                    Text("Masukkan Username")
-                }, modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 10.dp, start = 10.dp)
-
-            )
-        }
+        OutlinedTextField(
+            value = state.username,
+            onValueChange = { viewModel.onUsernameChange(it) },
+            shape = RoundedCornerShape(100.dp),
+            label = { Text("Masukkan Username") },
+            textStyle = TextStyle(color = Black),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        )
         Spacer(modifier = Modifier.height(22.dp))
         Text(
             modifier = Modifier.align(Alignment.Start),
@@ -83,22 +70,35 @@ fun LoginScreen(navController: NavHostController) {
             )
         )
         Spacer(modifier = Modifier.height(11.dp))
-        Row {
-            OutlinedTextField(
-                value = "",
-                onValueChange = { /*TODO*/ },
-                shape = RoundedCornerShape(100.dp),
-                label = {
-                    Text("Masukkan Password")
-                }, modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 10.dp, start = 10.dp)
+        OutlinedTextField(
+            value = state.password,
+            onValueChange = { viewModel.onPasswordChange(it) },
+            shape = RoundedCornerShape(100.dp),
+            label = { Text("Masukkan Password") },
+            textStyle = TextStyle(color = Black),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible)
+                    Icon(painter = painterResource(id = R.drawable.ic_visibility), contentDescription = null)
+                else Icon(painter = painterResource(id = R.drawable.ic_visibility_off), contentDescription = null)
 
-            )
-        }
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    icon
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        )
         Spacer(modifier = Modifier.height(73.dp))
         FilledButton(
             text = "Masuk",
-            onClick = { navController.navigate(NavigationItem.Home.route) })
+            onClick = {
+                coroutineScope.launch {
+                    viewModel.login(context)
+                    navController.navigate(NavigationItem.Home.route)
+                }
+            }
+        )
     }
 }
