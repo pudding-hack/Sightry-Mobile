@@ -1,3 +1,8 @@
+package com.example.sightry.navigation.screens
+
+import AppBar
+import FilledButton
+import ListProducts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 @Composable
-fun ListStockBarangScreen(navController: NavHostController) {
+fun ListStockBarangCountScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,8 +32,12 @@ fun ListStockBarangScreen(navController: NavHostController) {
                 .weight(1f)
         ) {
             ListProducts(product = "Pasta Gigi", stock = "10 Buah", onClick = {
-                navController.navigate(NavigationItem.Detail.route)
+                navController.navigate(NavigationItem.Edit.route)
             })
         }
+        Spacer(modifier = Modifier.height(26.dp))
+        FilledButton(text = "Tambah Stock", onClick = {
+
+        })
     }
 }
