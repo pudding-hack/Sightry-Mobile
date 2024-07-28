@@ -20,34 +20,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sightry.R
 import com.example.sightry.ui.theme.Black
 import com.example.sightry.ui.theme.Grey
+import com.example.sightry.ui.viewmodel.InventoryViewModel
 
 @Composable
 fun MinScreen(navController: NavHostController) {
     var textFieldValue by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val inventoryViewModel: InventoryViewModel = viewModel()
+
+    val id = navController.previousBackStackEntry?.savedStateHandle?.get<Long>("id") ?: return
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(32.dp)
     ) {
-        AppBar(text = "Keluar Stok", onIconClick = {
+        AppBar(text = "Stock Keluar", onIconClick = {
             navController.popBackStack()
         })
         Spacer(modifier = Modifier.height(40.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Kurangi Stok Pasta Gigi",
+            text = "Kurangi Stock",
             style = TextStyle(
                 fontSize = 20.sp,
                 fontFamily = FontFamily(Font(R.font.lexend)),
@@ -73,7 +81,7 @@ fun MinScreen(navController: NavHostController) {
                     fontFamily = FontFamily(Font(R.font.lexend)),
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    keyboardType = KeyboardType.Number
                 ),
                 placeholder = {
                     Text(
@@ -104,6 +112,11 @@ fun MinScreen(navController: NavHostController) {
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
-        FilledButton(text = "Submit", onClick = { })
+        FilledButton(text = "Submit", onClick = {
+            val quantity = textFieldValue.toLongOrNull() ?: return@FilledButton
+            inventoryViewModel.outboundInventory(id, quantity, context)
+            navController.popBackStack()
+        })
+
     }
 }

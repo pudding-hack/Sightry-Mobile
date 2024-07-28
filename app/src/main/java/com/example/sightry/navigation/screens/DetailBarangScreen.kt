@@ -102,11 +102,13 @@ fun DetailBarangScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
         FilledButton(text = "Tambah Stock", onClick = {
-
+            navController.currentBackStackEntry?.savedStateHandle?.set("id", id)
+            navController.navigate(NavigationItem.Add.route)
         })
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedButton(text = "Keluar Stock", onClick = {
-
+            navController.currentBackStackEntry?.savedStateHandle?.set("id", id)
+            navController.navigate(NavigationItem.Min.route)
         })
     }
 }

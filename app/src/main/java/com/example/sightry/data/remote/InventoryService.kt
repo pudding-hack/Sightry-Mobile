@@ -2,9 +2,11 @@ package com.example.sightry.data.remote
 
 import DetailResponse
 import HistoryResponse
+import IOResponse
 import InventoryResponse
 import RecognitionResponse
 import android.content.Context
+import com.example.sightry.data.remote.dto.request.IORequest
 import com.example.sightry.data.remote.dto.request.RecognitionRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -23,6 +25,11 @@ interface InventoryService {
     suspend fun getByIdInventory(id: Long, context: Context): DetailResponse?
 
     suspend fun historyInventory(id: Long, context: Context): HistoryResponse?
+
+    suspend fun inboundInventory(ioRequest: IORequest, context: Context): IOResponse?
+
+    suspend fun outboundInventory(ioRequest: IORequest, context: Context): IOResponse?
+
 
     companion object {
         fun create(): InventoryService {

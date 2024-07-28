@@ -107,7 +107,7 @@ fun ResultScreen(navController: NavHostController) {
                     )
                 )
             } ?: Text(
-                text = "Recognition failed or no response",
+                text = "Barang belum terdaftar",
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.lexend)),

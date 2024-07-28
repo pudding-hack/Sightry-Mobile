@@ -2,11 +2,13 @@ package com.example.sightry.data.remote
 
 import DetailResponse
 import HistoryResponse
+import IOResponse
 import InventoryResponse
 import RecognitionResponse
 import TokenManager
 import android.content.Context
 import android.util.Log
+import com.example.sightry.data.remote.dto.request.IORequest
 import com.example.sightry.data.remote.dto.request.RecognitionRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -157,5 +159,71 @@ class InventoryServiceImpl(
             return null
         }
 
+    }
+
+    override suspend fun inboundInventory(ioRequest: IORequest, context: Context): IOResponse? {
+        val tokenManager = TokenManager(context)
+        val token: String?
+        try {
+            token = tokenManager.getAccessToken()
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl Token", "Failed to retrieve access token: $e")
+            return null
+        }
+        try {
+            val response =  client.post {
+                url(HttpRoutes.INBOUND)
+                header("Authorization", "Bearer $token")
+                contentType(ContentType.Application.Json)
+                setBody(ioRequest) // Correctly pass the ioRequest object
+            }
+            Log.d("InventoryServiceImpl", "API response: $response")
+            return response.body()
+        } catch (e: RedirectResponseException) {
+            Log.e("InventoryServiceImpl ", "3xx: ${e.response.status.description}")
+            return null
+        } catch (e: ClientRequestException) {
+            Log.e("InventoryServiceImpl ", "4xx: ${e.response.status.description}")
+            return null
+        } catch (e: ServerResponseException) {
+            Log.e("InventoryServiceImpl", "5xx: ${e.response.status.description}")
+            return null
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl", "Error: ${e.message}")
+            return null
+        }
+    }
+
+    override suspend fun outboundInventory(ioRequest: IORequest, context: Context): IOResponse? {
+        val tokenManager = TokenManager(context)
+        val token: String?
+        try {
+            token = tokenManager.getAccessToken()
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl Token", "Failed to retrieve access token: $e")
+            return null
+        }
+        try {
+            val response =  client.post {
+                url(HttpRoutes.OUTBOUND)
+                header("Authorization", "Bearer $token")
+                contentType(ContentType.Application.Json)
+                setBody(ioRequest) // Correctly pass the ioRequest object
+            }
+            Log.d("InventoryServiceImpl", "API response: $response")
+            return response.body()
+        } catch (e: RedirectResponseException) {
+            Log.e("InventoryServiceImpl ", "3xx: ${e.response.status.description}")
+            return null
+        } catch (e: ClientRequestException) {
+            Log.e("InventoryServiceImpl ", "4xx: ${e.response.status.description}")
+            return null
+        } catch (e: ServerResponseException) {
+            Log.e("InventoryServiceImpl", "5xx: ${e.response.status.description}")
+            return null
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl", "Error: ${e.message}")
+            return null
+        }
     }
 }
