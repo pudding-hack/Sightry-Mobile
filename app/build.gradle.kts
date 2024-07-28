@@ -91,12 +91,4 @@ dependencies {
 
     //datastore
     implementation(libs.datastore.preferences)
-
-    //retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
 }

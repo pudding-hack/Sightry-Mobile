@@ -104,7 +104,6 @@ fun CameraScreen(navController: NavHostController) {
                                     val inputStream = context.contentResolver.openInputStream(it)
                                     val bitmap = BitmapFactory.decodeStream(inputStream)
 
-                                    // Scale down the image
                                     val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 800, 800 * bitmap.height / bitmap.width, true)
                                     val base64Image = bitmapToBase64(scaledBitmap)
 
@@ -143,7 +142,6 @@ fun CameraScreen(navController: NavHostController) {
 
 fun bitmapToBase64(bitmap: Bitmap): String {
     val byteArrayOutputStream = ByteArrayOutputStream()
-    // Adjust the compression quality to 80
     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
     val byteArray = byteArrayOutputStream.toByteArray()
     return Base64.encodeToString(byteArray, Base64.DEFAULT)

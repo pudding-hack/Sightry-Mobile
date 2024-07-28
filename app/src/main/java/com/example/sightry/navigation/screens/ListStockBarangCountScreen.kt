@@ -31,13 +31,8 @@ fun ListStockBarangCountScreen(navController: NavHostController) {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            ListProducts(product = "Pasta Gigi", stock = "10 Buah", onClick = {
-                navController.navigate(NavigationItem.Edit.route)
-            })
-        }
-        Spacer(modifier = Modifier.height(26.dp))
-        FilledButton(text = "Tambah Stock", onClick = {
 
-        })
+        }
+
     }
 }

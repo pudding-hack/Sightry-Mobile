@@ -6,12 +6,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.sightry.ui.viewmodel.InventoryViewModel
 
 @Composable
 fun ListStockBarangScreen(navController: NavHostController) {
+    val context = LocalContext.current
+    val inventoryViewModel: InventoryViewModel = viewModel()
+    val inventoryState = inventoryViewModel.inventoryState.collectAsState()
+
+    remember { inventoryViewModel.fetchInventory(context) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -26,9 +37,14 @@ fun ListStockBarangScreen(navController: NavHostController) {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            ListProducts(product = "Pasta Gigi", stock = "10 Buah", onClick = {
-                navController.navigate(NavigationItem.Detail.route)
-            })
+            inventoryState.value?.let { inventoryResponse ->
+                ListProducts(
+                    inventory = inventoryResponse.data,
+                    onClick = {
+                        navController.navigate(NavigationItem.Detail.route)
+                    }
+                )
+            }
         }
     }
 }

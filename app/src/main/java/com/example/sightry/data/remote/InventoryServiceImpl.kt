@@ -1,5 +1,6 @@
 package com.example.sightry.data.remote
 
+import InventoryResponse
 import RecognitionResponse
 import TokenManager
 import android.content.Context
@@ -10,6 +11,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -51,5 +53,38 @@ class InventoryServiceImpl(
             Log.e("InventoryServiceImpl", "Error: ${e.message}")
             return null
         }
+    }
+
+    override suspend fun getInventory(context: Context): InventoryResponse? {
+        val tokenManager = TokenManager(context)
+        val token: String?
+        try {
+            token = tokenManager.getAccessToken()
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl Token", "Failed to retrieve access token: $e")
+            return null
+        }
+        try {
+            val response =  client.get{
+                url(HttpRoutes.INVENTORY)
+                header("Authorization", "Bearer $token")
+                contentType(ContentType.Application.Json)
+            }
+            Log.d("InventoryServiceImpl", "API response: $response")
+            return response.body()
+        } catch (e: RedirectResponseException) {
+            Log.e("InventoryServiceImpl ", "3xx: ${e.response.status.description}")
+            return null
+        } catch (e: ClientRequestException) {
+            Log.e("InventoryServiceImpl ", "4xx: ${e.response.status.description}")
+            return null
+        } catch (e: ServerResponseException) {
+            Log.e("InventoryServiceImpl", "5xx: ${e.response.status.description}")
+            return null
+        } catch (e: Exception) {
+            Log.e("InventoryServiceImpl", "Error: ${e.message}")
+            return null
+        }
+
     }
 }

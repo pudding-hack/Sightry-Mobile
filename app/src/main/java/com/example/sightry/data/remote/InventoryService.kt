@@ -1,5 +1,6 @@
 package com.example.sightry.data.remote
 
+import InventoryResponse
 import RecognitionResponse
 import android.content.Context
 import com.example.sightry.data.remote.dto.request.RecognitionRequest
@@ -14,6 +15,8 @@ import kotlinx.serialization.json.Json
 
 interface InventoryService {
     suspend fun recognition(recognitionRequest: RecognitionRequest, context: Context): RecognitionResponse?
+
+    suspend fun getInventory(context: Context): InventoryResponse?
 
     companion object {
         fun create(): InventoryService {

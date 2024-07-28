@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,14 +20,14 @@ import com.example.sightry.R
 import com.example.sightry.ui.theme.Black
 
 @Composable
-fun ListProducts(modifier: Modifier = Modifier, product: String, stock: String, onClick: () -> Unit) {
+fun ListProducts(modifier: Modifier = Modifier, inventory: List<Datum>, onClick: () -> Unit) {
     LazyColumn {
-        items(25) {
+        items(inventory) { item ->
             Row(modifier = Modifier
                 .padding(bottom = 18.dp)
                 .clickable { onClick() }) {
                 Text(
-                    text = product,
+                    text = item.itemName,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.lexend)),
@@ -36,7 +37,7 @@ fun ListProducts(modifier: Modifier = Modifier, product: String, stock: String, 
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = stock,
+                    text = "${item.qty} Buah",
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.lexend)),
