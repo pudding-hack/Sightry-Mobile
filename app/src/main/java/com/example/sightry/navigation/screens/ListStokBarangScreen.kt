@@ -1,10 +1,5 @@
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -15,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sightry.ui.viewmodel.InventoryViewModel
 
+@SuppressLint("RememberReturnType")
 @Composable
 fun ListStockBarangScreen(navController: NavHostController) {
     val context = LocalContext.current
@@ -40,7 +36,8 @@ fun ListStockBarangScreen(navController: NavHostController) {
             inventoryState.value?.let { inventoryResponse ->
                 ListProducts(
                     inventory = inventoryResponse.data,
-                    onClick = {
+                    onClick = { product ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set("id", product.id)
                         navController.navigate(NavigationItem.Detail.route)
                     }
                 )
@@ -48,3 +45,4 @@ fun ListStockBarangScreen(navController: NavHostController) {
         }
     }
 }
+

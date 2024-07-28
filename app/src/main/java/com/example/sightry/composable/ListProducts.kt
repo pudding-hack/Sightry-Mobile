@@ -20,12 +20,12 @@ import com.example.sightry.R
 import com.example.sightry.ui.theme.Black
 
 @Composable
-fun ListProducts(modifier: Modifier = Modifier, inventory: List<Datum>, onClick: () -> Unit) {
+fun ListProducts(modifier: Modifier = Modifier, inventory: List<Datum>, onClick: (Datum) -> Unit) {
     LazyColumn {
         items(inventory) { item ->
             Row(modifier = Modifier
                 .padding(bottom = 18.dp)
-                .clickable { onClick() }) {
+                .clickable { onClick(item) }) {
                 Text(
                     text = item.itemName,
                     style = TextStyle(

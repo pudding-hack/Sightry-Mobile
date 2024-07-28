@@ -1,5 +1,7 @@
 package com.example.sightry.data.remote
 
+import DetailResponse
+import HistoryResponse
 import InventoryResponse
 import RecognitionResponse
 import android.content.Context
@@ -17,6 +19,10 @@ interface InventoryService {
     suspend fun recognition(recognitionRequest: RecognitionRequest, context: Context): RecognitionResponse?
 
     suspend fun getInventory(context: Context): InventoryResponse?
+
+    suspend fun getByIdInventory(id: Long, context: Context): DetailResponse?
+
+    suspend fun historyInventory(id: Long, context: Context): HistoryResponse?
 
     companion object {
         fun create(): InventoryService {
