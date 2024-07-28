@@ -28,6 +28,13 @@ import com.example.sightry.ui.theme.Purple
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+
 @Composable
 fun CameraScreen(navController: NavHostController) {
     val context = LocalContext.current
@@ -94,8 +101,16 @@ fun CameraScreen(navController: NavHostController) {
                             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                                 val imageUri = outputFileResults.savedUri
                                 imageUri?.let {
+                                    val inputStream = context.contentResolver.openInputStream(it)
+                                    val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                                    // Scale down the image
+                                    val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 800, 800 * bitmap.height / bitmap.width, true)
+                                    val base64Image = bitmapToBase64(scaledBitmap)
+
                                     navController.currentBackStackEntry?.savedStateHandle?.set("imageUri", it.toString())
-                                    navController.navigate(NavigationItem.Count.route)
+                                    navController.currentBackStackEntry?.savedStateHandle?.set("base64Image", base64Image)
+                                    navController.navigate(NavigationItem.Result.route)
                                 }
                             }
 
@@ -124,4 +139,12 @@ fun CameraScreen(navController: NavHostController) {
             Text("Izinkan Camera pada handphone anda untuk menggunakan fitur ini")
         }
     }
+}
+
+fun bitmapToBase64(bitmap: Bitmap): String {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    // Adjust the compression quality to 80
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+    val byteArray = byteArrayOutputStream.toByteArray()
+    return Base64.encodeToString(byteArray, Base64.DEFAULT)
 }

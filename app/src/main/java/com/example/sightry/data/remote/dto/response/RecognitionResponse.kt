@@ -4,7 +4,6 @@ import kotlinx.serialization.*
 data class RecognitionResponse (
     @SerialName("status_code")
     val statusCode: Long,
-
     val message: String,
     val data: Data
 )
