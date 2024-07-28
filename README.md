@@ -27,7 +27,7 @@
 
 ### **Frontend**
 
-For the frontend, we use Kotlin for android development using Jetpack Compose as the UI Framework. You can see the frontend repository [here](https://github.com/pudding-hack/Sightry-Mobile). If you wanna try the application directly you can install the apk [here]("https://drive.google.com/file/d/1sBVwEhkELTCqasQvtq4dT2EeNBgeuf1f/view?usp=drivesdk")
+For the frontend, we use Kotlin for android development using Jetpack Compose as the UI Framework. You can see the frontend repository [here](https://github.com/pudding-hack/Sightry-Mobile). If you wanna try the application directly you can install the apk [here](https://drive.google.com/file/d/1sBVwEhkELTCqasQvtq4dT2EeNBgeuf1f/view?usp=drivesdk)
 
 ### **Backend**
 
